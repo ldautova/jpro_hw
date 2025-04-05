@@ -1,19 +1,18 @@
 package org.example;
 
-import org.example.annotation.AfterSuite;
-import org.example.annotation.AfterTest;
-import org.example.annotation.BeforeSuite;
-import org.example.annotation.BeforeTest;
 import org.example.annotation.CsvSource;
 import org.example.annotation.Test;
+import org.example.domain.MethodClass;
+import org.example.utils.AnalyzeClassUtils;
 import org.example.utils.ValidationUtils;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -23,29 +22,19 @@ import java.util.Comparator;
  */
 public class TestRunner {
     public static void runTests(Class c) {
-        ValidationUtils.validate(c);
-
-        invokeMethodByAnnotation(c.getMethods(), BeforeSuite.class);
+        MethodClass methodClass = AnalyzeClassUtils.analyze(c);
+        ValidationUtils.validate(methodClass);
 
         Object instance = getInstance(c);
-
-        Arrays.stream(c.getMethods())
-                .filter(m -> m.isAnnotationPresent(Test.class) || m.isAnnotationPresent(CsvSource.class))
-                .sorted(Comparator.comparing(v -> !v.isAnnotationPresent(CsvSource.class) ? v.getAnnotation(Test.class).priority() : 0))
-                .forEach(m -> {
-                    try {
-                        invokeMethodByAnnotation(c.getMethods(), BeforeTest.class);
-
-                        invokeTestMethod(instance, m);
-
-                        invokeMethodByAnnotation(c.getMethods(), AfterTest.class);
-                    } catch (Exception e) {
-                        System.out.println("Error on invoke Test: " + m.getName() + "::: " + e.getMessage());
-                        throw new RuntimeException(e);
-                    }
-                });
-
-        invokeMethodByAnnotation(c.getMethods(), AfterSuite.class);
+        invokeMethod(instance, methodClass.getBeforeSuite());
+        if (!methodClass.getTests().isEmpty()) {
+            for (Method testMethod : sortTestMethod(methodClass.getTests())) {
+                invokeMethods(instance, methodClass.getBeforeTest());
+                invokeMethod(instance, testMethod);
+                invokeMethods(instance, methodClass.getAfterTest());
+            }
+        }
+        invokeMethod(instance, methodClass.getAfterSuite());
     }
 
     private static Object getInstance(Class c) {
@@ -62,12 +51,38 @@ public class TestRunner {
         }
     }
 
-    private static void invokeTestMethod(Object instance, Method m) throws InvocationTargetException, IllegalAccessException {
-        if (m.isAnnotationPresent(CsvSource.class)) {
-            String value = m.getAnnotation(CsvSource.class).value();
-            m.invoke(instance, parseCsvSourceParams(value));
-        } else {
-            m.invoke(instance);
+    private static List<Method> sortTestMethod(List<Method> tests) {
+        return tests.stream()
+                .sorted(Comparator.comparingInt(v -> !v.isAnnotationPresent(CsvSource.class) ? v.getAnnotation(Test.class).priority() : 0))
+                .toList();
+    }
+
+    private static void invokeMethods(Object instance, List<Method> methods) {
+        if (!methods.isEmpty()) {
+            for (Method method : methods) {
+                invokeMethod(instance, method);
+            }
+        }
+    }
+
+    private static void invokeMethod(Object instance, Method method) {
+        if (Objects.nonNull(method)) {
+            try {
+                if (method.isAnnotationPresent(CsvSource.class)) {
+                    String value = method.getAnnotation(CsvSource.class).value();
+                    Object[] params = parseCsvSourceParams(value);
+                    if (Objects.nonNull(params)) {
+                        method.invoke(instance, params);
+                    } else {
+                        System.out.println("Invalid csv parameter: " + value);
+                    }
+                } else {
+                    method.invoke(instance);
+                }
+            } catch (Exception e) {
+                System.out.println("Error on invoke : " + method.getName() + "::: " + e.getMessage());
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -86,20 +101,6 @@ public class TestRunner {
         } catch (Exception e) {
             System.out.println("ERROR: Failed to parse csv parameter: " + value + "::: " + e.getMessage());
         }
-        throw new IllegalArgumentException("Invalid csv parameter: " + value);
-    }
-
-    private static <T extends Annotation> void invokeMethodByAnnotation(Method[] methods, Class<T> tClass) {
-        Method method = Arrays.stream(methods)
-                .filter(v -> v.isAnnotationPresent(tClass))
-                .findFirst()
-                .orElse(null);
-        if (method != null) {
-            try {
-                method.invoke(null);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
+        return null;
     }
 }

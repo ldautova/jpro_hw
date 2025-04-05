@@ -60,6 +60,11 @@ public class Statistic {
         checkCsv(a, b, c, d);
     }
 
+    @CsvSource("10, Java, 10ssd, true")
+    public void invalidCsv(int a, String b, int c, boolean d) {
+        checkCsv(a, b, c, d);
+    }
+
     private void checkCsv(int a, String b, int c, boolean d) {
         if (a == c && d) {
             System.out.println(b);
