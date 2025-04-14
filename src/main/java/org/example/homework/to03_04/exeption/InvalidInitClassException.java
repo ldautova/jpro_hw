@@ -1,4 +1,4 @@
-package org.example.exeption;
+package org.example.homework.to03_04.exeption;
 
 /**
  * InvalidInitClassException.

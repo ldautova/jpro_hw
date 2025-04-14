@@ -1,13 +1,13 @@
-package org.example.utils;
+package org.example.homework.to03_04.utils;
 
-import org.example.annotation.AfterSuite;
-import org.example.annotation.AfterTest;
-import org.example.annotation.BeforeSuite;
-import org.example.annotation.BeforeTest;
-import org.example.annotation.CsvSource;
-import org.example.annotation.Test;
-import org.example.domain.MethodClass;
-import org.example.exeption.InvalidInitClassException;
+import org.example.homework.to03_04.annotation.AfterSuite;
+import org.example.homework.to03_04.annotation.AfterTest;
+import org.example.homework.to03_04.annotation.BeforeSuite;
+import org.example.homework.to03_04.annotation.BeforeTest;
+import org.example.homework.to03_04.annotation.CsvSource;
+import org.example.homework.to03_04.annotation.Test;
+import org.example.homework.to03_04.domain.MethodClass;
+import org.example.homework.to03_04.exeption.InvalidInitClassException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

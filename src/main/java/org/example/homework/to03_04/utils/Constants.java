@@ -1,9 +1,9 @@
-package org.example.utils;
+package org.example.homework.to03_04.utils;
 
-import org.example.annotation.AfterSuite;
-import org.example.annotation.AfterTest;
-import org.example.annotation.BeforeSuite;
-import org.example.annotation.BeforeTest;
+import org.example.homework.to03_04.annotation.AfterSuite;
+import org.example.homework.to03_04.annotation.AfterTest;
+import org.example.homework.to03_04.annotation.BeforeSuite;
+import org.example.homework.to03_04.annotation.BeforeTest;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;

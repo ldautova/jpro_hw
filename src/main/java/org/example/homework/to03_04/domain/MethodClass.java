@@ -1,4 +1,4 @@
-package org.example.domain;
+package org.example.homework.to03_04.domain;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

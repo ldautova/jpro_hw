@@ -1,10 +1,10 @@
-package org.example;
+package org.example.homework.to03_04;
 
-import org.example.annotation.CsvSource;
-import org.example.annotation.Test;
-import org.example.domain.MethodClass;
-import org.example.utils.AnalyzeClassUtils;
-import org.example.utils.ValidationUtils;
+import org.example.homework.to03_04.annotation.CsvSource;
+import org.example.homework.to03_04.annotation.Test;
+import org.example.homework.to03_04.domain.MethodClass;
+import org.example.homework.to03_04.utils.AnalyzeClassUtils;
+import org.example.homework.to03_04.utils.ValidationUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

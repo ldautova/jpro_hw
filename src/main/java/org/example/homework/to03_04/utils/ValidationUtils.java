@@ -1,9 +1,9 @@
-package org.example.utils;
+package org.example.homework.to03_04.utils;
 
-import static org.example.utils.Constants.RULES;
+import static org.example.homework.to03_04.utils.Constants.RULES;
 
-import org.example.domain.MethodClass;
-import org.example.exeption.InvalidInitClassException;
+import org.example.homework.to03_04.domain.MethodClass;
+import org.example.homework.to03_04.exeption.InvalidInitClassException;
 
 /**
  * ValidationUtils.
