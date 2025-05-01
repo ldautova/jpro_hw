@@ -1,13 +1,13 @@
 package org.example.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.UserRepository;
 import org.example.model.User;
+import org.example.repository.UserRepository;
 import org.example.service.UserService;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * UserServiceImpl.
@@ -20,27 +20,23 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public void createUser(String first) throws SQLException {
-        userRepository.save(first);
+    public User createUser(String userName) {
+        User createUser = new User().setUserName(userName);
+        return userRepository.save(createUser);
     }
 
     @Override
-    public User getUserById(Integer id) throws SQLException {
+    public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
 
     @Override
-    public List<User> findAll() throws SQLException {
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
     @Override
-    public void deleteById(Integer id) throws SQLException {
+    public void deleteById(Long id) {
         userRepository.deleteById(id);
-    }
-
-    @Override
-    public void clearUsers() throws SQLException {
-        userRepository.deleteAllUsers();
     }
 }

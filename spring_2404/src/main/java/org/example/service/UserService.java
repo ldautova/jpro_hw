@@ -2,8 +2,8 @@ package org.example.service;
 
 import org.example.model.User;
 
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * UserService.
@@ -11,13 +11,11 @@ import java.util.List;
  * @author Lina_Dautova
  */
 public interface UserService {
-    void createUser(String first) throws SQLException;
+    User createUser(String first);
 
-    User getUserById(Integer id) throws SQLException;
+    Optional<User> getUserById(Long id);
 
-    List<User> findAll() throws SQLException;
+    List<User> findAll();
 
-    void deleteById(Integer id) throws SQLException;
-
-    void clearUsers() throws SQLException;
+    void deleteById(Long id);
 }
