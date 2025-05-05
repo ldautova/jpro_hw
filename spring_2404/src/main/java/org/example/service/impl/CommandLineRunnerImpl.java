@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * CommandLineRunnerImpl.
@@ -24,7 +25,11 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
     public void run(String... args) {
         log.info("CommandLineRunnerImpl run start");
 
-        User forDelete = userService.createUser("User_for_delete");
+        Optional<User> forDeleteOpt = userService.createUser("User_for_delete");
+        if (forDeleteOpt.isEmpty()) {
+            throw new RuntimeException("User not created");
+        }
+        User forDelete = forDeleteOpt.orElse(null);
         log.info("Created user = {}", forDelete);
 
         List<User> users = userService.findAll();

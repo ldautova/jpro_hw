@@ -20,9 +20,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public User createUser(String userName) {
+    public Optional<User> createUser(String userName) {
         User createUser = new User().setUserName(userName);
-        return userRepository.save(createUser);
+        return Optional.of(userRepository.save(createUser));
     }
 
     @Override

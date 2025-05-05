@@ -11,7 +11,7 @@ import java.util.Optional;
  * @author Lina_Dautova
  */
 public interface UserService {
-    User createUser(String first);
+    Optional<User> createUser(String first);
 
     Optional<User> getUserById(Long id);
 
