@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>spring_2404</module>
+        <module>spring_web</module>
         <module>to03_04</module>
         <module>to10_04</module>
         <module>to17_04</module>

@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>spring_2404</artifactId>
+    <artifactId>spring_web</artifactId>
 
     <dependencies>
         <dependency>
