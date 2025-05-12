@@ -1,12 +1,12 @@
 package org.example.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.model.Product;
 import org.example.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * ProductService.
@@ -22,7 +22,8 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Optional<Product> findByProductId(Long productId) {
-        return productRepository.findById(productId);
+    public Product findByProductId(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Product with id %s not found", productId)));
     }
 }

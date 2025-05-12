@@ -1,8 +1,6 @@
 package org.example.web;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.example.model.User;
 import org.example.service.UserService;
 import org.example.web.dto.UserDto;
 import org.example.web.mapper.MapperService;
@@ -25,19 +23,14 @@ public class UserController {
 
     @GetMapping("/users")
     public List<UserDto> getAllProducts() {
-        List<User> users = userService.findAll();
-        if (users.isEmpty()) {
-            return List.of();
-        }
-        return users.stream()
+        return userService.findAll()
+                .stream()
                 .map(mapperService::toUserDto)
                 .toList();
     }
 
     @GetMapping("/users/{userId}")
     public UserDto getUserById(@PathVariable(name = "userId") Long userId) {
-        User user = userService.getUserById(userId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("User with id %s not found", userId)));
-        return mapperService.toUserDto(user);
+        return mapperService.toUserDto(userService.getUserById(userId));
     }
 }

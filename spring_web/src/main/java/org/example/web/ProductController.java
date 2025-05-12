@@ -1,8 +1,6 @@
 package org.example.web;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.example.model.Product;
 import org.example.service.ProductService;
 import org.example.web.dto.ProductDto;
 import org.example.web.mapper.MapperService;
@@ -25,20 +23,13 @@ public class ProductController {
 
     @GetMapping("/products")
     public List<ProductDto> getAllProducts() {
-        List<Product> products = productService.getAllProducts();
-        if (products.isEmpty()) {
-            return List.of();
-        }
-        return products.stream()
+        return productService.getAllProducts().stream()
                 .map(productMapper::toProductDto)
                 .toList();
     }
 
     @GetMapping("/products/{productId}")
     public ProductDto getProductById(@PathVariable(name = "productId") Long productId) {
-        Product product = productService.findByProductId(productId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Product with id %s not found", productId)));
-
-        return productMapper.toProductDto(product);
+        return productMapper.toProductDto(productService.findByProductId(productId));
     }
 }

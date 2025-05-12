@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface UserService {
     Optional<User> createUser(String first);
 
-    Optional<User> getUserById(Long id);
+    User getUserById(Long id);
 
     List<User> findAll();
 
