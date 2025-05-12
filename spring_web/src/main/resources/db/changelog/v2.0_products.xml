@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create_table_products" author="Dautova Lina">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="products"/>
+            </not>
+        </preConditions>
+
+        <createSequence sequenceName="products_seq"/>
+        <createTable tableName="products">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="products_pk"/>
+            </column>
+            <column name="account_number" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="balance" type="integer" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_type" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"
+                             foreignKeyName="product_fk"
+                             references="users(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_products" author="Dautova Lina">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="users"/>
+        </preConditions>
+        <sql>
+            INSERT INTO public.products (id, account_number, balance, product_type, user_id)
+            VALUES (nextval('products_seq'), '8326993f0951457cbb7a', 10, 'CARD', 1);
+            INSERT INTO public.products (id, account_number, balance, product_type, user_id)
+            VALUES (nextval('products_seq'), 'b2dd3d0375104c50b7bb', 5, 'ACCOUNT', 2);
+            INSERT INTO public.products (id, account_number, balance, product_type, user_id)
+            VALUES (nextval('products_seq'), '8cfa671df937436b8e18', 6, 'ACCOUNT', 3);
+            INSERT INTO public.products (id, account_number, balance, product_type, user_id)
+            VALUES (nextval('products_seq'), '4653167064884688ae7b', 120, 'CARD', 1);
+            INSERT INTO public.products (id, account_number, balance, product_type, user_id)
+            VALUES (nextval('products_seq'), 'f4a9c02f7af44b82a142', 18, 'CARD', 2);
+            INSERT INTO public.products (id, account_number, balance, product_type, user_id)
+            VALUES (nextval('products_seq'), '36a8be3fa1d44f3a9219', 0, 'CARD', 3);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

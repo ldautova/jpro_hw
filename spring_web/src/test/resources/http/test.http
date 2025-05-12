@@ -1,0 +1,11 @@
+### getAllProducts
+GET http://localhost:8080/products
+
+### getProductById
+GET http://localhost:8080/products/2
+
+### getAllUsers
+GET http://localhost:8080/users
+
+### getProductById
+GET http://localhost:8080/users/2

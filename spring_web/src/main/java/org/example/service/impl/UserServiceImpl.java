@@ -1,5 +1,6 @@
 package org.example.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.model.User;
 import org.example.repository.UserRepository;
@@ -26,8 +27,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("User with id %s not found", userId)));
     }
 
     @Override

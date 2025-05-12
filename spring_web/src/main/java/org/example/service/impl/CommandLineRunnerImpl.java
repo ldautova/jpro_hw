@@ -35,14 +35,14 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         List<User> users = userService.findAll();
         log.info("All users found = {}", users);
 
-        var userOpt = userService.getUserById(forDelete.getId());
-        log.info("User found by id = {}, user = {}", forDelete.getId(), userOpt.orElse(null));
+        var user = userService.getUserById(forDelete.getId());
+        log.info("User found by id = {}, user = {}", forDelete.getId(), user);
 
         userService.deleteById(forDelete.getId());
         log.info("Delete user by id = {}", forDelete.getId());
 
-        var foundUserAfterDeleteOpt = userService.getUserById(forDelete.getId());
-        log.info("Get user by id = {}, user = {}", forDelete.getId(), foundUserAfterDeleteOpt.orElse(null));
+        var foundUserAfterDelete = userService.getUserById(forDelete.getId());
+        log.info("Get user by id = {}, user = {}", forDelete.getId(), foundUserAfterDelete);
 
         log.info("CommandLineRunnerImpl run end");
     }
